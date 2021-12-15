@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FileField, EmailField
+from wtforms.fields.simple import TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo
 
 from formseguro.ext.database import db
@@ -14,6 +15,7 @@ class CadastroForm(FlaskForm):
     confirm = PasswordField('Repita a senha')
     email = EmailField(label='Email:', name="email", validators=[Email()])
     fotoperfil = FileField(label='Foto de perfil:', name="fotoperfil")
+    areadetexto = TextAreaField(label='Texto longo', render_kw={'cols':'30', 'rols':'10'})
 
 
 bp = Blueprint('exemplo', __name__, url_prefix='/exemplo', template_folder='templates')
@@ -34,6 +36,7 @@ def root():
 
             return "Validou"
 
+    form.areadetexto.data = "olá pessoas!"
     return render_template('exemplo/index.html', form=form)
 
 
